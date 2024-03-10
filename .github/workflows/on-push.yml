@@ -14,36 +14,30 @@ on:
 
 jobs:
   build-test:
+    name: Build & Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: leafo/gh-actions-lua@v10
       - uses: leafo/gh-actions-luarocks@v4
       - name: Install
-        run: luarocks install --deps-mode all --only-deps lua-import-0.1.0-1.rockspec
+        run: luarocks install --deps-mode all --only-deps lua-import-main-1.rockspec
       - name: Build
-        run: luarocks make
+        run: luarocks build
       - name: Test
         run: luarocks test
-      - name: Pack
-        run: luarocks pack lua-import 0.1.0-1
-      - uses: actions/upload-artifact@v4
-        with:
-          name: lua-import
-          path: lua-import.all.rock
 
   publush:
+    name: Publish ${{ github.ref_name }}
+    if: startsWith(github.event.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     needs: build-test
     steps:
+      - uses: actions/checkout@v4
       - uses: leafo/gh-actions-lua@v10
       - uses: leafo/gh-actions-luarocks@v4
-      - name: Download
-        uses: actions/download-artifact@v2
-        with:
-          name: lua-import
-          path: lua-import.all.rock
+      - id: new-version
+        name: New Version
+        run: luarocks new_version --tag ${{ github.ref_name }} | cut -d' ' -f 2 | sed 's/^/rockspec=/g' >> "$GITHUB_OUTPUT"
       - name: Publish
-        run: luarocks upload --skip-pack lua-import.all.rock
-        env:
-          LUAROCKS_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
+        run: luarocks upload --temp-key ${{ secrets.LUAROCKS_API_KEY }} -- ${{ steps.new-version.outputs.rockspec }}
