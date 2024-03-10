@@ -32,6 +32,9 @@ jobs:
   publush:
     name: Publish ${{ github.ref_name }}
     if: startsWith(github.event.ref, 'refs/tags/v')
+    environment:
+      name: luarocks
+      url: https://luarocks.org/modules/yogeshlonkar/lua-import
     needs: build-test
     runs-on: ubuntu-latest
     steps:
