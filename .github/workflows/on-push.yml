@@ -1,0 +1,49 @@
+name: Build & Tests
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+  push:
+    branches:
+      - '**'
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leafo/gh-actions-lua@v10
+      - uses: leafo/gh-actions-luarocks@v4
+      - name: Install
+        run: luarocks install --deps-mode all --only-deps lua-import-0.1.0-1.rockspec
+      - name: Build
+        run: luarocks make
+      - name: Test
+        run: luarocks test
+      - name: Pack
+        run: luarocks pack lua-import 0.1.0-1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lua-import
+          path: lua-import.all.rock
+
+  publush:
+    runs-on: ubuntu-latest
+    needs: build-test
+    steps:
+      - uses: leafo/gh-actions-lua@v10
+      - uses: leafo/gh-actions-luarocks@v4
+      - name: Download
+        uses: actions/download-artifact@v2
+        with:
+          name: lua-import
+          path: lua-import.all.rock
+      - name: Publish
+        run: luarocks upload --skip-pack lua-import.all.rock
+        env:
+          LUAROCKS_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
