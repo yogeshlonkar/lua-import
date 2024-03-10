@@ -6,6 +6,8 @@ on:
       - '**.md'
       - 'docs/**'
   push:
+    tags:
+      - 'v*'
     branches:
       - '**'
     paths-ignore:
@@ -30,8 +32,8 @@ jobs:
   publush:
     name: Publish ${{ github.ref_name }}
     if: startsWith(github.event.ref, 'refs/tags/v')
-    runs-on: ubuntu-latest
     needs: build-test
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: leafo/gh-actions-lua@v10
