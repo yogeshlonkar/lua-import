@@ -33,7 +33,7 @@ To simplify require statements in neovim configurations:
 - Copy [import.lua](import.lua) to `lua/` directory in your neovim configuration.
 - Add `require('import')` to `init.lua`.
 
-Then you can use `import` function in of lua files anywhere in your configurations.
+Then you can use `import` function in lua files anywhere in your configurations.
 
 ## Example
 
