@@ -3,7 +3,7 @@ The lua-import module provides a function.
 The function takes single string argument same as require, but the argument can be a relative path to the required module.
 The return value is the module referred by the path argument.
 
-## 💻 Instal
+## 💻 Install
     
 ### Using luarocks
 
