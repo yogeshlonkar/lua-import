@@ -1,4 +1,4 @@
-# lua-import [![License](http://img.shields.io/badge/Licence-MIT-brightgreen.svg)](LICENSE) [![Build Status](https://github.com/yogeshlonkar/lua-import/actions/workflows/on-push.yml/badge.svg)](https://github.com/yogeshlonkar/lua-import/actions)
+# lua-import [![License](http://img.shields.io/badge/Licence-MIT-brightgreen.svg)](LICENSE) [![Build Status](https://github.com/yogeshlonkar/lua-import/actions/workflows/on-push.yml/badge.svg)](https://github.com/yogeshlonkar/lua-import/actions) [![Luarocks](https://badgen.net/static/Luarocks/0.1.0-1/blue)](https://luarocks.org/modules/yogeshlonkar/lua-import)
 The lua-import module provides a function.
 The function takes single string argument same as require, but the argument can be a relative path to the required module.
 The return value is the module referred by the path argument.
