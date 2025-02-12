@@ -83,14 +83,14 @@ local m = import('../../import')
 To setup project for development, run the following commands.
 
 ```shell
-luarocks install --deps-mode all --only-deps lua-import-0.1.0-1.rockspec
-eval "$(luarocks path --bin)"
+luarocks install --local --deps-mode all --only-deps lua-import-main-1.rockspec
+eval "$(luarocks --local path --bin)"
 ```
 
 To run the tests
 
 ```shell
-luarocks test
+luarocks --test test
 
 # or
 busted .
