@@ -1,7 +1,7 @@
 rockspec_format = '3.0'
 package = 'lua-import'
 version = 'main-1' -- overwritten by git tag
-source = {url = 'git://github.com/yogeshlonkar/lua-import', tag = '0.1.0-1'}
+source = {url = 'git://github.com/yogeshlonkar/lua-import', tag = 'v0.1.1'}
 description = {
   summary = 'An import function to require modules with relative pattern',
   detailed = [[
@@ -12,7 +12,8 @@ description = {
     ]],
   license = 'MIT',
 }
-dependencies = {'lua >= 5.1', 'busted >= 2.2.0-1'}
+dependencies = {'lua >= 5.1'}
+test_dependencies = {'busted >= 2.2.0-1'}
 test = {
   type = 'busted'
 }
