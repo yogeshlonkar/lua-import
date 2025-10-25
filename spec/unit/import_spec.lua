@@ -51,4 +51,23 @@ describe('lua-import', function()
     assert.Equal(type(m), 'function')
   end)
 
+  it('should import from underscore-prefixed folder using relative path with parent navigation and subfolders (slash notation)', function()
+    local m = import('wiki/_makina/dumem')
+    assert.no.Nil(m)
+    assert.Equal(m.name, 'dumem_from_makina')
+  end)
+
+  it('should import from underscore-prefixed folder using relative path with parent navigation and subfolders (dot notation)', function()
+    local m = import('wiki/_makina/utils')
+    assert.no.Nil(m)
+    assert.Equal(m.name, 'utils_from_makina')
+  end)
+
+  it('should import with parent navigation into underscore-prefixed subfolder', function()
+    local m = import('wiki/en/explora/test_import')
+    assert.no.Nil(m)
+    assert.Equal(m.dumem.name, 'dumem_from_makina')
+    assert.Equal(m.utils.name, 'utils_from_makina')
+  end)
+
 end)

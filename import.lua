@@ -51,7 +51,11 @@ local function normalise_path(s)
   end
   local to_trim = ''
   if to_trim_index > -1 then to_trim = s:sub(1, to_trim_index) end
-  local to_return = s:gsub(to_trim, '')
+  -- Only remove the prefix, not all occurrences
+  local to_return = s
+  if to_trim ~= '' and s:sub(1, #to_trim) == to_trim then
+    to_return = s:sub(#to_trim + 1)
+  end
   return to_return
 end
 
