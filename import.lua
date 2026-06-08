@@ -49,10 +49,10 @@ local function normalise_path(s)
       break
     end
   end
-  local to_trim = ''
-  if to_trim_index > -1 then to_trim = s:sub(1, to_trim_index) end
-  local to_return = s:gsub(to_trim, '')
-  return to_return
+  if to_trim_index > -1 and s:sub(to_trim_index, to_trim_index) == '/' then
+    return s:sub(to_trim_index + 1)
+  end
+  return s
 end
 
 ---The lua-import module provides a function,
@@ -62,7 +62,7 @@ end
 ---@param path any
 ---@return unknown
 function import(path)
-  local __dirname = debug.getinfo(2, 'S').source:sub(2):match('(.*' .. '/' .. ')')
+  local __dirname = debug.getinfo(2, 'S').source:sub(2):match('(.*' .. '/' .. ')') or './'
   local resolved_path = resolve_relative(path, __dirname)
   local normal_path = normalise_path(resolved_path)
   local require_arg = to_require_arg(normal_path)
