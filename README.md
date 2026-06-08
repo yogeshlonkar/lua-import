@@ -41,22 +41,23 @@ Below is the directory structure of the [tests](spec) in this package, all examp
 
 ```text
 spec
+├── _subdir
+│   ├── init.lua
+│   └── module.lua
 ├── fixture_three.lua
 └── unit
     ├── fixture_one.lua
     ├── fixture_two
-    │   ├── init.lua
-    │   └── two_dot_one.lua
+    │   ├── init.lua
+    │   └── two_dot_one.lua
     └── import_spec.lua
-
-3 directories, 5 files
 ```
 
 ```lua
 -- will import same as require
 local m = import('spec.unit.fixture_one')
 
--- will same as require with filepath separator
+-- will import same as require with filepath separator
 local m = import('spec/unit/fixture_one')
 
 -- will import relative to current directory
@@ -68,15 +69,28 @@ local m = import('fixture_one')
 -- will import relative to current directory with init.lua
 local m = import('./fixture_two')
 
--- will import relative to current directory with init.lua withouth ./
+-- will import relative to current directory with init.lua without ./
 local m = import('fixture_two/two_dot_one')
 
 -- will import relative to parent directory
 local m = import('../fixture_three')
 
+-- will import relative to parent directory with underscore-prefixed folder
+local m = import('../_subdir')
+
+-- will import relative to parent directory into a subfolder (slash notation)
+local m = import('../_subdir/module')
+
+-- will import relative to parent directory into a subfolder (dot notation)
+local m = import('../_subdir.module')
+
 -- will import relative to parent 2 up directories
 local m = import('../../import')
 ```
+
+> **Note:** Run scripts from the project root (e.g. `lua wiki/en/explora/script.lua`) so that
+> relative imports can resolve paths correctly. Running a script from its own directory
+> (e.g. `cd wiki/en/explora && lua script.lua`) limits `../` navigation to same-directory imports only.
 
 ## Development
 
