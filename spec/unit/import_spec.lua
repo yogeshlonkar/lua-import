@@ -51,4 +51,30 @@ describe('lua-import', function()
     assert.Equal(type(m), 'function')
   end)
 
+  it('should import relative to parent directory with underscore folder', function()
+    local m = import('../_subdir')
+    assert.no.Nil(m)
+    assert.Equal(m.name, '_subdir')
+  end)
+
+  it('should import relative to parent directory into underscore subfolder', function()
+    local m = import('../_subdir/module')
+    assert.no.Nil(m)
+    assert.Equal(m.name, '_subdir_module')
+  end)
+
+  it('should import relative to parent directory into underscore subfolder with dot notation', function()
+    local m = import('../_subdir.module')
+    assert.no.Nil(m)
+    assert.Equal(m.name, '_subdir_module')
+  end)
+
+  it('should not crash when script is run from its own directory', function()
+    local cmd = 'cd spec/unit/standalone && lua -e "package.path = [=[../../../?.lua;]=] .. package.path" standalone.lua 2>&1'
+    local handle = io.popen(cmd)
+    local result = handle:read('*a')
+    handle:close()
+    assert.is.truthy(result:match('OK'), 'Expected OK but got: ' .. result)
+  end)
+
 end)
